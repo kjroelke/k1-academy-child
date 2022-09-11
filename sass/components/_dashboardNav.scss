@@ -1,15 +1,39 @@
 @use '../abstracts/mixins';
+@use '../abstracts/variables';
+@use 'sass:color';
 .lifterlms {
 	.llms-student-dashboard.dashboard {
 		.llms-sd {
+			&-header {
+				@include mixins.displayFlex(column-reverse, flex-start, stretch);
+			}
 			&-nav {
+				background-color: color.adjust(variables.$color-grey, $lightness: 30%);
+				@include mixins.border(transparent);
 			}
 			&-items {
 				list-style: none;
-				@include mixins.displayFlex(column);
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				&:before {
+					display: none;
+				}
+
+				a {
+					color: variables.$color-primary;
+					transition: all variables.$transition--standard;
+					&:hover {
+						color: white;
+						text-decoration: underline;
+						cursor: pointer;
+					}
+				}
 			}
-			&-item.current {
-				text-decoration: underline;
+			&-item {
+				margin: 0 1em;
+				&.current {
+					text-decoration: underline;
+				}
 			}
 		}
 	}
