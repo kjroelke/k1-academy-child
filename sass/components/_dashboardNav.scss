@@ -1,0 +1,16 @@
+@use '../abstracts/mixins';
+.lifterlms {
+	.llms-student-dashboard.dashboard {
+		.llms-sd {
+			&-nav {
+			}
+			&-items {
+				list-style: none;
+				@include mixins.displayFlex(column);
+			}
+			&-item.current {
+				text-decoration: underline;
+			}
+		}
+	}
+}

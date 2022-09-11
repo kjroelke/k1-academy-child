@@ -1,0 +1,19 @@
+@use '../abstracts/variables';
+@use '../abstracts/mixins';
+
+.x-btn {
+	text-shadow: none;
+	transition: all variables.$transition--standard;
+	&:hover,
+	&:active,
+	&:focus {
+		background-color: variables.$color-primary;
+		text-shadow: none;
+		transform: translateY(-4px);
+		@include mixins.dropShadow;
+	}
+}
+.button,
+[type='submit'] {
+	@extend .x-btn;
+}

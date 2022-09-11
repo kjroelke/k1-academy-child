@@ -4,7 +4,7 @@
   "description": "The child theme of Pro for K1 Academy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "wp-scripts start"
   },
   "author": "Kingdom One",
   "license": "ISC",
