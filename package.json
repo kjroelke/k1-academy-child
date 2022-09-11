@@ -4,7 +4,8 @@
   "description": "The child theme of Pro for K1 Academy",
   "main": "index.js",
   "scripts": {
-    "start": "wp-scripts start"
+    "start": "wp-scripts start",
+    "build": "wp-scripts build"
   },
   "author": "Kingdom One",
   "license": "ISC",
