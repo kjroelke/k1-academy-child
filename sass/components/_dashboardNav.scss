@@ -2,10 +2,11 @@
 @use '../abstracts/variables';
 @use 'sass:color';
 .lifterlms {
-	.llms-student-dashboard.dashboard {
+	.llms-student-dashboard {
 		.llms-sd {
 			&-header {
 				@include mixins.displayFlex(column-reverse, flex-start, stretch);
+				margin-bottom: 2em;
 			}
 			&-nav {
 				background-color: color.adjust(variables.$color-grey, $lightness: 30%);
@@ -21,7 +22,8 @@
 
 				a {
 					color: variables.$color-primary;
-					transition: all variables.$transition--standard;
+					// transition: all variables.$transition--standard;
+					font-size: 1.2em;
 					&:hover {
 						color: white;
 						text-decoration: underline;
