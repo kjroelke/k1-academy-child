@@ -3,6 +3,8 @@
 
 @use './base/reset';
 
+@use './layout/sales-form';
+
 @use './components/buttons';
 @use './components/llms-loop';
 @use './components/dashboardNav';
