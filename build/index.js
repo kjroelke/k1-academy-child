@@ -12,7 +12,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "customSalesApp": () => (/* binding */ customSalesApp)
 /* harmony export */ });
-// Init
+/* harmony import */ var _modules_utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../modules/utilities */ "./src/modules/utilities.js");
+ // Init
+
 function customSalesApp() {
   // 1. Clear Notice
   view.clearNotice(); // 2. Load Form
@@ -40,7 +42,7 @@ const model = {
   },
   _getCourses: async function () {
     try {
-      const res = await fetch('https://k1academy.local/wp-json/llms/v1/courses');
+      const res = await fetch(_modules_utilities__WEBPACK_IMPORTED_MODULE_0__.API_URL + '/courses');
       const data = await res.json();
       const courseContainer = document.querySelector('.the-courses');
       data.forEach(el => {
@@ -113,6 +115,7 @@ function dashboardControl() {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "API_URL": () => (/* binding */ API_URL),
 /* harmony export */   "myCopyright": () => (/* binding */ myCopyright),
 /* harmony export */   "querySelector": () => (/* binding */ querySelector)
 /* harmony export */ });
@@ -135,6 +138,7 @@ function myCopyright(brandName) {
   const thisYear = new Date().getFullYear();
   copyright.innerHTML = `<p>&copy; ${thisYear} ${brandName} All Rights Reserved.`;
 }
+const API_URL = `https://k1academy.local/wp-json/llms/v1`;
 
 /***/ }),
 

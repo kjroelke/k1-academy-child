@@ -18,3 +18,5 @@ export function myCopyright(brandName) {
 	const thisYear = new Date().getFullYear();
 	copyright.innerHTML = `<p>&copy; ${thisYear} ${brandName} All Rights Reserved.`;
 }
+
+export const API_URL = `https://k1academy.local/wp-json/llms/v1`;

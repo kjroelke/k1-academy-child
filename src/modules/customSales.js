@@ -1,3 +1,5 @@
+import { API_URL } from '../modules/utilities';
+
 // Init
 export function customSalesApp() {
 	// 1. Clear Notice
@@ -23,15 +25,14 @@ const controller = {
 	},
 };
 // MODEL
+
 const model = {
 	state: {
 		courses: [],
 	},
 	_getCourses: async function () {
 		try {
-			const res = await fetch(
-				'https://k1academy.local/wp-json/llms/v1/courses',
-			);
+			const res = await fetch(API_URL + '/courses');
 			const data = await res.json();
 			const courseContainer = document.querySelector('.the-courses');
 			data.forEach((el) => {
