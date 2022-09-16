@@ -4,8 +4,8 @@ export function customSalesApp() {
 	view.clearNotice();
 
 	// 2. Load Form
-	model._getCourses(); // 2a
-	// view.ShowForm(); 2b
+	model._getCourses();
+	view.showCourses(model.state.courses);
 
 	// 3. Listen For Submit
 	view.addHandlerRender(controller.submitForm);
@@ -42,12 +42,6 @@ const model = {
 					name: el.title.rendered,
 				};
 				this.state.courses.push(course);
-				const courseDisplay = `
-			<div class="course">
-				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label>${course.name}</label>
-			</div>
-			`;
-				courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
 			});
 			console.log(this.state);
 		} catch (err) {
@@ -65,5 +59,15 @@ const view = {
 	},
 	addHandlerRender: function (handler) {
 		document.addEventListener('submit', handler);
+	},
+	showCourses: function (courses) {
+		courses.forEach((course) => {
+			const courseDisplay = `
+			<div class="course">
+				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label>${course.name}</label>
+			</div>
+			`;
+			courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
+		});
 	},
 };
