@@ -10,41 +10,74 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "formView": () => (/* binding */ formView)
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utilities */ "./src/modules/utilities.js");
+/* harmony import */ var _babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/classPrivateFieldGet */ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js");
+/* harmony import */ var _utilities__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utilities */ "./src/modules/utilities.js");
 
-const formView = {
-  loggedIn: (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.querySelector)('body.logged-in'),
-  jsNotice: (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getElById)('jsNotice'),
-  formContainer: (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getElById)('custom-sales-form'),
-  courseContainer: (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.querySelector)('.the-courses'),
-  clearNotice: function () {
-    if (!this.jsNotice) return;
-    this.jsNotice.innerHTML = '';
 
-    if (!this.loggedIn) {
-      this.formContainer.innerHTML = `<span class="alert">You must be logged in to continue.</span>`;
-    }
-  },
-  addHandlerRender: function (handler) {
-    document.addEventListener('submit', handler);
-  },
-  showCourses: function (courses) {
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+
+
+var _jsNotice = /*#__PURE__*/new WeakMap();
+
+var _formContainer = /*#__PURE__*/new WeakMap();
+
+var _courseContainer = /*#__PURE__*/new WeakMap();
+
+class FormView {
+  constructor() {
+    _classPrivateFieldInitSpec(this, _jsNotice, {
+      writable: true,
+      value: (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getElById)('jsNotice')
+    });
+
+    _classPrivateFieldInitSpec(this, _formContainer, {
+      writable: true,
+      value: (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getElById)('custom-sales-form')
+    });
+
+    _classPrivateFieldInitSpec(this, _courseContainer, {
+      writable: true,
+      value: (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.querySelector)('.the-courses')
+    });
+
+    if (!(0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _jsNotice)) return;
+    (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _jsNotice).innerHTML = '';
+  } // _addHandlerCourseSelect() {
+  // 	document.addEventListener('click', (ev) => {
+  // 		console.log(ev.target);
+  // 	});
+  // }
+
+
+  addHandlerSubmit(handler) {
+    (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _formContainer).addEventListener('submit', ev => {
+      ev.preventDefault();
+      handler(this.getFormData()); // handler(this._getFormDatav2());
+    });
+  }
+
+  showCourses(courses) {
     courses.forEach(course => {
       const courseDisplay = `
 			<div class="course">
 				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label>${course.name}</label>
 			</div>
 			`;
-      this.courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
-    });
-  },
 
+      (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _courseContainer).insertAdjacentHTML('afterbegin', courseDisplay);
+    });
+  }
   /** Callback onSubmit()
    * @return {json} obj of data
    */
-  getFormData: function () {
+
+
+  getFormData() {
     const form = {
       user: {},
       org: {
@@ -61,26 +94,35 @@ const formView = {
       }
     }; // get Form Data
 
-    form.user.firstName = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('user-first-name');
-    form.user.lastName = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('user-last-name');
-    form.user.email = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('user-email');
-    form.org.type = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('org-type');
-    form.org.name = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('org-name');
-    form.org.employees.ft = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('employee--full');
-    form.org.employees.pt = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('employee--part');
-    form.org.volunteers = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getFormVal)('volunteers');
-    const theCourses = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.querySelector)('.course', true);
+    form.user.firstName = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('user-first-name');
+    form.user.lastName = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('user-last-name');
+    form.user.email = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('user-email');
+    form.org.type = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('org-type');
+    form.org.name = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('org-name');
+    form.org.employees.ft = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('employee--full');
+    form.org.employees.pt = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('employee--part');
+    form.org.volunteers = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getFormVal)('volunteers');
+    const theCourses = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.querySelector)('.course', true);
     theCourses.forEach(el => {
       const courseName = el.querySelector('label').textContent;
-      const courseID = (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.getElById)(courseName);
+      const courseID = (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.getElById)(courseName);
       if (courseID.checked) form.courses.ids.push(+courseID.value);
     });
     return form;
-  },
-  checkout: function (id) {
+  }
+
+  _getFormDatav2() {
+    const data = [...new FormData((0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _formContainer))];
+    return data;
+  }
+
+  checkout(id) {
     window.location.href = `https://academy.kingdomone.co/checkout/?=${id}`;
   }
-};
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new FormView());
 
 /***/ }),
 
@@ -104,15 +146,13 @@ __webpack_require__.r(__webpack_exports__);
 
 const controller = {
   init: async function () {
-    _View__WEBPACK_IMPORTED_MODULE_2__.formView.clearNotice();
-
     try {
       // 2. Load Form
       console.log('Loading Form...');
       await _model_js__WEBPACK_IMPORTED_MODULE_1__.getCourseData('courses');
-      _View__WEBPACK_IMPORTED_MODULE_2__.formView.showCourses(_model_js__WEBPACK_IMPORTED_MODULE_1__.state.courses); // 3. Handle Submit
+      _View__WEBPACK_IMPORTED_MODULE_2__["default"].showCourses(_model_js__WEBPACK_IMPORTED_MODULE_1__.state.courses); // 3. Handle Submit
 
-      _View__WEBPACK_IMPORTED_MODULE_2__.formView.addHandlerRender(this.submitForm); // Get comparison data
+      _View__WEBPACK_IMPORTED_MODULE_2__["default"].addHandlerSubmit(this.submitForm); // Get comparison data
 
       await _model_js__WEBPACK_IMPORTED_MODULE_1__.getLMSData(['memberships', 'accessPlans', 'groups']); // CREATE LMS Assets (AJAX)
       // await someMethod();
@@ -129,9 +169,8 @@ const controller = {
    * 4. redirect user
    * @param {object} ev the Event
    */
-  submitForm: async function (ev) {
-    ev.preventDefault();
-    _model_js__WEBPACK_IMPORTED_MODULE_1__.state.form = _View__WEBPACK_IMPORTED_MODULE_2__.formView.getFormData();
+  submitForm: async function (data) {
+    _model_js__WEBPACK_IMPORTED_MODULE_1__.state.form = data;
     console.log('Form Submitted! Doing AJAX....');
     await _model_js__WEBPACK_IMPORTED_MODULE_1__.createLMSAssets(); // console.log('AJAX Complete! See ya later!');
     // formView.checkout();
@@ -219,8 +258,19 @@ async function getLMSData(lmsData) {
     console.error(err);
   }
 }
-async function createLMSAssets() {
-  console.log(state);
+async function createLMSAssets() {// console.log(state);
+}
+
+async function createAsset(endpoint, data) {
+  const res = await fetch(_utilities__WEBPACK_IMPORTED_MODULE_0__.API_URL + `/${endpoint}`, {
+    method: 'POST',
+    credentials: '',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  const info = await res.json();
 }
 
 /***/ }),
@@ -26678,6 +26728,70 @@ try {
   }
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/classApplyDescriptorGet.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/classApplyDescriptorGet.js ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _classApplyDescriptorGet)
+/* harmony export */ });
+function _classApplyDescriptorGet(receiver, descriptor) {
+  if (descriptor.get) {
+    return descriptor.get.call(receiver);
+  }
+
+  return descriptor.value;
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/classExtractFieldDescriptor.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/classExtractFieldDescriptor.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _classExtractFieldDescriptor)
+/* harmony export */ });
+function _classExtractFieldDescriptor(receiver, privateMap, action) {
+  if (!privateMap.has(receiver)) {
+    throw new TypeError("attempted to " + action + " private field on non-instance");
+  }
+
+  return privateMap.get(receiver);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/classPrivateFieldGet.js ***!
+  \*************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _classPrivateFieldGet)
+/* harmony export */ });
+/* harmony import */ var _classApplyDescriptorGet_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./classApplyDescriptorGet.js */ "./node_modules/@babel/runtime/helpers/esm/classApplyDescriptorGet.js");
+/* harmony import */ var _classExtractFieldDescriptor_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./classExtractFieldDescriptor.js */ "./node_modules/@babel/runtime/helpers/esm/classExtractFieldDescriptor.js");
+
+
+function _classPrivateFieldGet(receiver, privateMap) {
+  var descriptor = (0,_classExtractFieldDescriptor_js__WEBPACK_IMPORTED_MODULE_1__["default"])(receiver, privateMap, "get");
+  return (0,_classApplyDescriptorGet_js__WEBPACK_IMPORTED_MODULE_0__["default"])(receiver, descriptor);
+}
 
 /***/ })
 

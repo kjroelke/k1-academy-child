@@ -1,4 +1,5 @@
 import { API_URL } from '../utilities';
+
 export const state = {
 	accessPlans: [],
 	courses: [],
@@ -61,5 +62,17 @@ export async function getLMSData(lmsData) {
 }
 
 export async function createLMSAssets() {
-	console.log(state);
+	// console.log(state);
+}
+
+async function createAsset(endpoint, data) {
+	const res = await fetch(API_URL + `/${endpoint}`, {
+		method: 'POST',
+		credentials: '',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	});
+	const info = await res.json();
 }

@@ -5,20 +5,19 @@ import {
 	querySelector,
 } from '../../modules/utilities';
 import * as model from './model.js';
-import { formView } from './View';
+import FormView from './View';
 
 // CONTROLLER
 export const controller = {
 	init: async function () {
-		formView.clearNotice();
 		try {
 			// 2. Load Form
 			console.log('Loading Form...');
 			await model.getCourseData('courses');
-			formView.showCourses(model.state.courses);
+			FormView.showCourses(model.state.courses);
 
 			// 3. Handle Submit
-			formView.addHandlerRender(this.submitForm);
+			FormView.addHandlerSubmit(this.submitForm);
 
 			// Get comparison data
 			await model.getLMSData(['memberships', 'accessPlans', 'groups']);
@@ -36,9 +35,8 @@ export const controller = {
 	 * 4. redirect user
 	 * @param {object} ev the Event
 	 */
-	submitForm: async function (ev) {
-		ev.preventDefault();
-		model.state.form = formView.getFormData();
+	submitForm: async function (data) {
+		model.state.form = data;
 		console.log('Form Submitted! Doing AJAX....');
 		await model.createLMSAssets();
 		// console.log('AJAX Complete! See ya later!');

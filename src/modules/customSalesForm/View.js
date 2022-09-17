@@ -1,31 +1,39 @@
 import { querySelector, getElById, getFormVal } from '../utilities';
 
-export const formView = {
-	loggedIn: querySelector('body.logged-in'),
-	jsNotice: getElById('jsNotice'),
-	formContainer: getElById('custom-sales-form'),
-	courseContainer: querySelector('.the-courses'),
-	clearNotice: function () {
-		if (!this.jsNotice) return;
-		this.jsNotice.innerHTML = '';
-	},
-	addHandlerRender: function (handler) {
-		document.addEventListener('submit', handler);
-	},
-	showCourses: function (courses) {
+class FormView {
+	#jsNotice = getElById('jsNotice');
+	#formContainer = getElById('custom-sales-form');
+	#courseContainer = querySelector('.the-courses');
+	constructor() {
+		if (!this.#jsNotice) return;
+		this.#jsNotice.innerHTML = '';
+	}
+	// _addHandlerCourseSelect() {
+	// 	document.addEventListener('click', (ev) => {
+	// 		console.log(ev.target);
+	// 	});
+	// }
+	addHandlerSubmit(handler) {
+		this.#formContainer.addEventListener('submit', (ev) => {
+			ev.preventDefault();
+			handler(this.getFormData());
+			// handler(this._getFormDatav2());
+		});
+	}
+	showCourses(courses) {
 		courses.forEach((course) => {
 			const courseDisplay = `
 			<div class="course">
 				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label>${course.name}</label>
 			</div>
 			`;
-			this.courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
+			this.#courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
 		});
-	},
+	}
 	/** Callback onSubmit()
 	 * @return {json} obj of data
 	 */
-	getFormData: function () {
+	getFormData() {
 		const form = {
 			user: {},
 			org: {
@@ -56,8 +64,13 @@ export const formView = {
 			if (courseID.checked) form.courses.ids.push(+courseID.value);
 		});
 		return form;
-	},
-	checkout: function (id) {
+	}
+	_getFormDatav2() {
+		const data = [...new FormData(this.#formContainer)];
+		return data;
+	}
+	checkout(id) {
 		window.location.href = `https://academy.kingdomone.co/checkout/?=${id}`;
-	},
-};
+	}
+}
+export default new FormView();
