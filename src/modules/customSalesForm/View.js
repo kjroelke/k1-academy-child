@@ -8,9 +8,6 @@ export const formView = {
 	clearNotice: function () {
 		if (!this.jsNotice) return;
 		this.jsNotice.innerHTML = '';
-		if (!this.loggedIn) {
-			this.formContainer.innerHTML = `<span class="alert">You must be logged in to continue.</span>`;
-		}
 	},
 	addHandlerRender: function (handler) {
 		document.addEventListener('submit', handler);

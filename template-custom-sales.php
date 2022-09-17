@@ -11,6 +11,8 @@ get_header();
     <header>
         <h1>Hello there.</h1><span>Let's Get Started.</span>
     </header>
+    <? if (!is_user_logged_in()) : ?> <span class="alert">You must be logged in to continue.</span>
+    <? else : ?>
     <div id="jsNotice">This page requires Javascript to work. If you need help, please contact us at <a
             href="mailto:hello@kingdomone.co">hello@kingdomone.co</a></div>
     <form class="sales-form" id="custom-sales-form">
@@ -75,5 +77,6 @@ get_header();
         <div class="the-price"></div>
         <input type="submit" value="Submit">
     </form>
+    <? endif; ?>
 </div>
 <? get_footer(); ?>
