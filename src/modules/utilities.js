@@ -9,6 +9,12 @@ export function querySelector(selector, all = false) {
 		: document.querySelectorAll(selector);
 }
 
+export function getElById(selector) {
+	return document.getElementById(selector);
+}
+export function getFormVal(selector) {
+	return document.getElementById(selector).value;
+}
 /** Outputs Copyright String to `div` with ID of 'copyright'
  * @param {string} brandName - The name of the brand that claims copyright
  * @output The HTML
