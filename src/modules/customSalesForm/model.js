@@ -12,7 +12,6 @@ export const state = {
  */
 export async function getCourseData(endpoint) {
 	const data = await makeRequest(endpoint);
-	console.log(data);
 	data.forEach((el) => {
 		const course = {
 			id: el.id,

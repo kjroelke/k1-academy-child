@@ -219,7 +219,6 @@ const state = {
 
 async function getCourseData(endpoint) {
   const data = await (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.makeRequest)(endpoint);
-  console.log(data);
   data.forEach(el => {
     const course = {
       id: el.id,
