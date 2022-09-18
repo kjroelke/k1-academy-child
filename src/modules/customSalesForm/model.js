@@ -1,4 +1,4 @@
-import { API_URL } from '../utilities';
+import { makeRequest } from '../utilities';
 
 export const state = {
 	accessPlans: [],
@@ -11,8 +11,8 @@ export const state = {
  * @param {string} endpoint endpoint of API
  */
 export async function getCourseData(endpoint) {
-	const res = await fetch(API_URL + `/${endpoint}`);
-	const data = await res.json();
+	const data = await makeRequest(endpoint);
+	console.log(data);
 	data.forEach((el) => {
 		const course = {
 			id: el.id,
@@ -23,17 +23,16 @@ export async function getCourseData(endpoint) {
 		state.courses.push(course);
 	});
 }
+
 /**
- * Takes an array of LMS endpoints as strings and returns the data to State. Note, this function converts 'accessPlans' (input JS) to 'access-plans' (string for href).
+ * Takes an array of LMS endpoints as strings and returns the data to State.
  * [LMS Rest API Documentation](https://developer.lifterlms.com/rest-api/)
  * @param {array} lmsData the terms as strings
  */
 export async function getLMSData(lmsData) {
 	try {
-		lmsData.forEach(async (el) => {
-			const endpoint = el === 'accessPlans' ? 'access-plans' : el;
-			const res = await fetch(API_URL + `/${endpoint}`);
-			const data = await res.json();
+		lmsData.forEach(async (endpoint) => {
+			const data = await makeRequest(endpoint);
 			data.forEach((el) => {
 				switch (endpoint) {
 					case 'memberships':
@@ -41,12 +40,14 @@ export async function getLMSData(lmsData) {
 							id: el.id,
 						};
 						state.memberships.push(membership);
+
 						break;
 					case 'accessPlans':
 						const accessPlan = {
 							id: el.id,
 						};
 						state.accessPlans.push(accessPlan);
+
 						break;
 					case 'groups':
 						const group = {
@@ -61,18 +62,25 @@ export async function getLMSData(lmsData) {
 	}
 }
 
+/**
+ * 1. Destructure State
+ * 2.
+ */
 export async function createLMSAssets() {
-	// console.log(state);
-}
-
-async function createAsset(endpoint, data) {
-	const res = await fetch(API_URL + `/${endpoint}`, {
-		method: 'POST',
-		credentials: '',
-		headers: {
-			'Content-Type': 'application/json',
-		},
-		body: JSON.stringify(data),
+	console.log('Creating assets...');
+	const assets = Object.entries(state);
+	const jsonAsset = {};
+	// Convert into single JSON Asset
+	assets.forEach((asset) => {
+		const [endpoint, array] = asset;
 	});
-	const info = await res.json();
+
+	// send to WP
+	try {
+		const res = await makeRequest('courses', 'POST', course, true);
+		console.log(res);
+	} catch (err) {
+		console.error(err);
+	}
+
 }

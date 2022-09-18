@@ -53,6 +53,12 @@ class FormView {
   // 	});
   // }
 
+  /**
+   * Listen for `submit` event and passes the value of `getFormData()` to the callback function
+   * @param {function} handler the callback function to fire
+   * @return {json} user-submitted form data from `getFormData()`
+   */
+
 
   addHandlerSubmit(handler) {
     (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _formContainer).addEventListener('submit', ev => {
@@ -163,17 +169,23 @@ const controller = {
   },
 
   /** onSubmit()
-   * 1. get data
-   * 2. add to state
+   * 1. add data to model.state
    * 3. create LMS assets
    * 4. redirect user
-   * @param {object} ev the Event
+   * @param {object} data the data
    */
   submitForm: async function (data) {
-    _model_js__WEBPACK_IMPORTED_MODULE_1__.state.form = data;
+    _model_js__WEBPACK_IMPORTED_MODULE_1__.state.form = { ...data
+    };
     console.log('Form Submitted! Doing AJAX....');
-    await _model_js__WEBPACK_IMPORTED_MODULE_1__.createLMSAssets(); // console.log('AJAX Complete! See ya later!');
+
+    try {
+      await _model_js__WEBPACK_IMPORTED_MODULE_1__.createLMSAssets();
+    } catch (err) {
+      console.error(err);
+    } // console.log('AJAX Complete! See ya later!');
     // formView.checkout();
+
   }
 };
 
@@ -206,8 +218,8 @@ const state = {
  */
 
 async function getCourseData(endpoint) {
-  const res = await fetch(_utilities__WEBPACK_IMPORTED_MODULE_0__.API_URL + `/${endpoint}`);
-  const data = await res.json();
+  const data = await (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.makeRequest)(endpoint);
+  console.log(data);
   data.forEach(el => {
     const course = {
       id: el.id,
@@ -219,17 +231,15 @@ async function getCourseData(endpoint) {
   });
 }
 /**
- * Takes an array of LMS endpoints as strings and returns the data to State. Note, this function converts 'accessPlans' (input JS) to 'access-plans' (string for href).
+ * Takes an array of LMS endpoints as strings and returns the data to State.
  * [LMS Rest API Documentation](https://developer.lifterlms.com/rest-api/)
  * @param {array} lmsData the terms as strings
  */
 
 async function getLMSData(lmsData) {
   try {
-    lmsData.forEach(async el => {
-      const endpoint = el === 'accessPlans' ? 'access-plans' : el;
-      const res = await fetch(_utilities__WEBPACK_IMPORTED_MODULE_0__.API_URL + `/${endpoint}`);
-      const data = await res.json();
+    lmsData.forEach(async endpoint => {
+      const data = await (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.makeRequest)(endpoint);
       data.forEach(el => {
         switch (endpoint) {
           case 'memberships':
@@ -258,19 +268,26 @@ async function getLMSData(lmsData) {
     console.error(err);
   }
 }
-async function createLMSAssets() {// console.log(state);
-}
+/**
+ * 1. Destructure State
+ * 2.
+ */
 
-async function createAsset(endpoint, data) {
-  const res = await fetch(_utilities__WEBPACK_IMPORTED_MODULE_0__.API_URL + `/${endpoint}`, {
-    method: 'POST',
-    credentials: '',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
-  const info = await res.json();
+async function createLMSAssets() {
+  console.log('Creating assets...');
+  const assets = Object.entries(state);
+  const jsonAsset = {}; // Convert into single JSON Asset
+
+  assets.forEach(asset => {
+    const [endpoint, array] = asset;
+  }); // send to WP
+
+  try {
+    const res = await (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.makeRequest)('courses', 'POST', course, true);
+    console.log(res);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 /***/ }),
@@ -310,6 +327,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "API_URL": () => (/* binding */ API_URL),
 /* harmony export */   "getElById": () => (/* binding */ getElById),
 /* harmony export */   "getFormVal": () => (/* binding */ getFormVal),
+/* harmony export */   "makeRequest": () => (/* binding */ makeRequest),
 /* harmony export */   "myCopyright": () => (/* binding */ myCopyright),
 /* harmony export */   "querySelector": () => (/* binding */ querySelector)
 /* harmony export */ });
@@ -335,10 +353,45 @@ function getFormVal(selector) {
 
 function myCopyright(brandName) {
   const copyright = document.getElementById('copyright');
-  const thisYear = new Date().getFullYear();
-  copyright.innerHTML = `<p>&copy; ${thisYear} ${brandName} All Rights Reserved.`;
+  copyright.innerHTML = `<p>&copy; ${k1AcademyData.year} ${brandName} All Rights Reserved.`;
 }
-const API_URL = `https://k1academy.local/wp-json/llms/v1`;
+const API_URL = `${k1AcademyData.root_url}/wp-json/llms/v1/`;
+/**
+ * Makes AJAX request to LMS API. Also converts `'accessPlans'` to HTML-friedly `'access-plans.'`
+ * @param {string} endpoint the endpoint url to add. *Note: should not include leading '/'*
+ * @param {string} method the AJAX Method (GET, POST, DELETE, UPDATE)
+ * @param {boolean} returnAll if `true`, returns an Array, else only return the `data`
+ * @returns {Array|Object} `data` object or an Array containing [AJAX `res`ponse, The `data`, The `method`]
+ */
+
+async function makeRequest(endpoint) {
+  let method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'GET';
+  let theData = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  let returnAll = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  endpoint = endpoint === 'accessPlans' ? 'access-plans' : endpoint;
+
+  try {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        'X-LLMS-CONSUMER-KEY': "ck_e04c84549049559cb073cce647b70828dd3c629c",
+        'X-LLMS-CONSUMER-SECRET': "cs_4e80cbc7a6ee0336aac5583149775ca5af425e19"
+      },
+      method: `${method}`,
+      timeout: 5000
+    };
+
+    if (theData) {
+      config.body = JSON.stringify(theData);
+    }
+
+    console.log(config);
+    const res = await fetch(API_URL + `${endpoint}`, config);
+    const data = await res.json();
+    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+    return returnAll ? [res, data, method] : data;
+  } catch (error) {}
+}
 
 /***/ }),
 
