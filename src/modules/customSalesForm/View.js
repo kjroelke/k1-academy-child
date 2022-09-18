@@ -13,6 +13,11 @@ class FormView {
 	// 		console.log(ev.target);
 	// 	});
 	// }
+	/**
+	 * Listen for `submit` event and passes the value of `getFormData()` to the callback function
+	 * @param {function} handler the callback function to fire
+	 * @return {json} user-submitted form data from `getFormData()`
+	 */
 	addHandlerSubmit(handler) {
 		this.#formContainer.addEventListener('submit', (ev) => {
 			ev.preventDefault();

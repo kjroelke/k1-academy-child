@@ -29,16 +29,19 @@ export const controller = {
 		}
 	},
 	/** onSubmit()
-	 * 1. get data
-	 * 2. add to state
+	 * 1. add data to model.state
 	 * 3. create LMS assets
 	 * 4. redirect user
-	 * @param {object} ev the Event
+	 * @param {object} data the data
 	 */
 	submitForm: async function (data) {
-		model.state.form = data;
+		model.state.form = { ...data };
 		console.log('Form Submitted! Doing AJAX....');
-		await model.createLMSAssets();
+		try {
+			await model.createLMSAssets();
+		} catch (err) {
+			console.error(err);
+		}
 		// console.log('AJAX Complete! See ya later!');
 		// formView.checkout();
 	},
