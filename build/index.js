@@ -282,6 +282,11 @@ async function createLMSAssets() {
     const [endpoint, array] = asset;
   }); // send to WP
 
+  const course = {
+    title: 'Course created via API Request',
+    content: 'This is the content of the course. It is hilariously short.'
+  };
+
   try {
     const res = await (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.makeRequest)('courses', 'POST', course, true);
     console.log(res);
