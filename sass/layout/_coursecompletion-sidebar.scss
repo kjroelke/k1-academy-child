@@ -1,0 +1,6 @@
+@use '../abstracts/mixins';
+@use '../abstracts/variables';
+
+.llms-widget-syllabus .llms-lesson-complete.done, .llms-widget-syllabus .lesson-complete-placeholder.done {
+  color: #00AE83 !important;
+}
