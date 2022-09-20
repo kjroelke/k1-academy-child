@@ -1,0 +1,10 @@
+@use '../abstracts/mixins';
+@use '../abstracts/variables';
+
+#cs-content > div > div > div > div > div > div > div > section.llms-sd-section.llms-my-courses > div > ul > li.llms-loop-item.post-1214.course.type-course.status-publish.has-post-thumbnail.hentry.course_cat-ministry-safety.is-enrolled.is-incomplete {
+    margin-top: 0px !important;
+  }
+  
+  .llms-loop-item {
+    margin-right: 10px;
+  }
