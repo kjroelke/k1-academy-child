@@ -7,16 +7,21 @@ export const state = {
  * @param {string} endpoint endpoint of API
  */
 export async function getCourseData(endpoint) {
-	const data = await makeRequest(endpoint);
-	data.forEach((el) => {
-		const course = {
-			id: el.id,
-			link: el.permalink,
-			status: el.status,
-			name: el.title.rendered,
-		};
-		state.courses.push(course);
-	});
+	console.log('Loading Form...');
+	try {
+		const data = await makeRequest(endpoint);
+		data.forEach((el) => {
+			const course = {
+				id: el.id,
+				link: el.permalink,
+				status: el.status,
+				name: el.title.rendered,
+			};
+			if (course.id != 1214) state.courses.push(course);
+		});
+	} catch (err) {
+		console.error(err);
+	}
 }
 
 /**
@@ -57,10 +62,11 @@ export async function getLMSData(lmsData) {
 }
 
 export async function createLMSAssets() {
+	console.log('Creating assets...');
 	await createMembership();
-	console.log('Membership created!');
-	console.log('Creating access plan...');
 	await createAccessPlan();
+	await createGroups();
+	console.log('AJAX Complete! See ya later!');
 }
 
 async function createMembership() {
@@ -71,18 +77,16 @@ async function createMembership() {
 		auto_enroll: state.form.courses.ids,
 	};
 	try {
-		console.log(membership);
 		const res = await makeRequest('memberships', 'POST', membership, true);
 		state.membership = res[1];
-
-		// FOR TESTING
-		// state.membership = membership;
+		console.log('Membership created!');
 	} catch (err) {
 		console.error(err);
 	}
 }
 
 async function createAccessPlan() {
+	console.log('Creating access plan...');
 	const accessPlan = {
 		post_id: state.membership.id,
 		title: `${state.form.org.name} Access Plan for AB-506 Membership.`,
@@ -93,17 +97,17 @@ async function createAccessPlan() {
 	try {
 		const res = await makeRequest('access-plans', 'POST', accessPlan, true);
 		state.accessPlan = res[1];
-		console.log('Access Plan Created! Time to checkout.');
+		console.log('Access Plan Created!');
 	} catch (err) {
 		console.error(err);
 	}
 }
 
-/**
- * 1214 = quick start = free
- * 1021 = education = $15
- * 831 = volunteer = $5
- * 583 = reg = $15
+/** List of course IDs Names & Prices (currently for K1Academy.local)
+ * - `1214` Quick start = free
+ * - `1021` Education = $15
+ * - `831` Volunteer = $5
+ * - `583` Reg = $15
  */
 function calcPrice() {
 	let price = 0;
@@ -125,4 +129,73 @@ function calcPrice() {
 		}
 	});
 	return price;
+}
+
+async function createGroups() {
+	const coursesToAdd = Object.values(state.form.courses.ids);
+	const totalEmployed =
+		state.form.org.employees.ft + state.form.org.employees.pt;
+	const seats = totalEmployed + state.form.org.volunteers;
+	const plural = seats > 10 ? true : false;
+	state.groups = {
+		courses: [],
+		group: {
+			post: state.membership.id,
+			visibility: 'private',
+			slug: ``,
+			title: ``,
+		},
+	};
+
+	if (plural) {
+		console.log('Creating all the groups...');
+		for (const id of coursesToAdd) {
+			const res = await makeRequest(`courses/${id}`);
+			state.groups.courses.push(res);
+		}
+
+		for (const course of state.groups.courses) {
+			const name = course.title.rendered;
+			let type = '';
+			switch (course.id) {
+				case 1021:
+					type = 'Edu';
+					break;
+				case 831:
+					type = 'Vol';
+					break;
+				case 583:
+					type = 'Emp';
+					break;
+			}
+			state.groups.group.post = course.id;
+			if (!name) return;
+			state.groups.group.slug = `${state.form.org.name}-${name}-${type}`;
+			state.groups.group.title = `${state.form.org.name} (${name})`;
+			await createGroup(state.groups.group, seats);
+		}
+	}
+
+	if (!plural) {
+		console.log('Creating the group.');
+		state.groups.group = {
+			slug: `${state.form.org.name}-mx`,
+			title: `${state.form.org.name}`,
+		};
+		await createGroup(state.groups.group);
+	}
+}
+async function createGroup(group, seats) {
+	try {
+		const res = await makeRequest('groups', 'POST', group, true);
+		await makeRequest(
+			`groups/${res[1].id}/seats`,
+			'PUT',
+			{ total: `${seats}` },
+			true,
+		);
+		console.log('Group created!');
+	} catch (err) {
+		console.error(err);
+	}
 }

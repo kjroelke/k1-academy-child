@@ -36,6 +36,7 @@ class FormView {
 			`;
 			this.#courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
 		});
+		console.log(`Form loaded!`);
 	}
 	/** Callback onSubmit()
 	 * @return {json} obj of data
