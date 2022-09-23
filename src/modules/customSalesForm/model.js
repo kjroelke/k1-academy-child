@@ -1,10 +1,6 @@
 import { makeRequest } from '../utilities';
-
 export const state = {
-	accessPlans: [],
 	courses: [],
-	groups: [],
-	memberships: [],
 };
 
 /** Gets LMS Course Data and adds it to state.
@@ -24,6 +20,7 @@ export async function getCourseData(endpoint) {
 }
 
 /**
+ * [DEPRECATED?]
  * Takes an array of LMS endpoints as strings and returns the data to State.
  * [LMS Rest API Documentation](https://developer.lifterlms.com/rest-api/)
  * @param {array} lmsData the terms as strings
@@ -39,14 +36,12 @@ export async function getLMSData(lmsData) {
 							id: el.id,
 						};
 						state.memberships.push(membership);
-
 						break;
 					case 'accessPlans':
 						const accessPlan = {
 							id: el.id,
 						};
 						state.accessPlans.push(accessPlan);
-
 						break;
 					case 'groups':
 						const group = {
@@ -61,28 +56,73 @@ export async function getLMSData(lmsData) {
 	}
 }
 
-/**
- * 1. Destructure State
- * 2.
- */
 export async function createLMSAssets() {
-	console.log('Creating assets...');
-	const assets = Object.entries(state);
-	const jsonAsset = {};
-	// Convert into single JSON Asset
-	assets.forEach((asset) => {
-		const [endpoint, array] = asset;
-	});
+	await createMembership();
+	console.log('Membership created!');
+	console.log('Creating access plan...');
+	await createAccessPlan();
+}
 
-	// send to WP
-	const course = {
-		title: 'Course created via API Request',
-		content: 'This is the content of the course. It is hilariously short.',
+async function createMembership() {
+	const membership = {
+		content: `A membership for ${state.form.org.name}`,
+		title: `${state.form.org.name} Billing Membership`,
+		catalog_visibility: 'hidden',
+		auto_enroll: state.form.courses.ids,
 	};
 	try {
-		const res = await makeRequest('courses', 'POST', course, true);
-		console.log(res);
+		console.log(membership);
+		// const res = await makeRequest('memberships', 'POST', membership, true);
+		// state.membership = res[1];
+
+		// FOR TESTING
+		state.membership = membership;
 	} catch (err) {
 		console.error(err);
 	}
+}
+
+async function createAccessPlan() {
+	const accessPlan = {
+		post_id: 1274,
+		title: `${state.form.org.name} Access Plan for AB-506 Membership.`,
+		access_expiration: 'limited-period',
+		visibility: 'hidden',
+		price: calcPrice(),
+	};
+	try {
+		console.log(accessPlan);
+		// const res = await makeRequest('accessPlan', 'POST', accessPlan, true);
+	} catch (err) {
+		console.error(err);
+	}
+}
+
+/**
+ * 1214 = quick start = free
+ * 1021 = education = $15
+ * 831 = volunteer = $5
+ * 583 = reg = $15
+ */
+function calcPrice() {
+	let price = 0;
+	const employed = state.form.org.employees.ft + state.form.org.employees.pt;
+	const vol = state.form.org.volunteers;
+	state.membership.auto_enroll.forEach((id) => {
+		switch (id) {
+			case 1214:
+				price += 0;
+				break;
+			case 1021:
+				price += 15 * employed;
+				break;
+			case 831:
+				price += 5 * vol;
+				break;
+			case 583:
+				price += 15 * employed;
+		}
+	});
+	console.log(price);
+	return price;
 }

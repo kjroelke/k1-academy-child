@@ -21,6 +21,7 @@ class FormView {
 	addHandlerSubmit(handler) {
 		this.#formContainer.addEventListener('submit', (ev) => {
 			ev.preventDefault();
+			console.log('Form Submitted!');
 			handler(this.getFormData());
 			// handler(this._getFormDatav2());
 		});
@@ -58,9 +59,9 @@ class FormView {
 		form.user.email = getFormVal('user-email');
 		form.org.type = getFormVal('org-type');
 		form.org.name = getFormVal('org-name');
-		form.org.employees.ft = getFormVal('employee--full');
-		form.org.employees.pt = getFormVal('employee--part');
-		form.org.volunteers = getFormVal('volunteers');
+		form.org.employees.ft = parseInt(getFormVal('employee--full'));
+		form.org.employees.pt = parseInt(getFormVal('employee--part'));
+		form.org.volunteers = parseInt(getFormVal('volunteers'));
 		const theCourses = querySelector('.course', true);
 
 		theCourses.forEach((el) => {

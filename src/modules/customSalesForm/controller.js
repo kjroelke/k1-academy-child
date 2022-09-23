@@ -20,10 +20,7 @@ export const controller = {
 			FormView.addHandlerSubmit(this.submitForm);
 
 			// Get comparison data
-			await model.getLMSData(['memberships', 'accessPlans', 'groups']);
-			// CREATE LMS Assets (AJAX)
-			// await someMethod();
-			// Send to New Page (checkout)
+			// await model.getLMSData(['memberships', 'accessPlans', 'groups']);
 		} catch (err) {
 			console.error(err);
 		}
@@ -36,8 +33,8 @@ export const controller = {
 	 */
 	submitForm: async function (data) {
 		model.state.form = { ...data };
-		console.log('Form Submitted! Doing AJAX....');
 		try {
+			console.log('Creating assets...');
 			await model.createLMSAssets();
 		} catch (err) {
 			console.error(err);
