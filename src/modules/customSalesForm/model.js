@@ -72,11 +72,11 @@ async function createMembership() {
 	};
 	try {
 		console.log(membership);
-		// const res = await makeRequest('memberships', 'POST', membership, true);
-		// state.membership = res[1];
+		const res = await makeRequest('memberships', 'POST', membership, true);
+		state.membership = res[1];
 
 		// FOR TESTING
-		state.membership = membership;
+		// state.membership = membership;
 	} catch (err) {
 		console.error(err);
 	}
@@ -84,15 +84,16 @@ async function createMembership() {
 
 async function createAccessPlan() {
 	const accessPlan = {
-		post_id: 1274,
+		post_id: state.membership.id,
 		title: `${state.form.org.name} Access Plan for AB-506 Membership.`,
 		access_expiration: 'limited-period',
 		visibility: 'hidden',
 		price: calcPrice(),
 	};
 	try {
-		console.log(accessPlan);
-		// const res = await makeRequest('accessPlan', 'POST', accessPlan, true);
+		const res = await makeRequest('access-plans', 'POST', accessPlan, true);
+		state.accessPlan = res[1];
+		console.log('Access Plan Created! Time to checkout.');
 	} catch (err) {
 		console.error(err);
 	}
@@ -123,6 +124,5 @@ function calcPrice() {
 				price += 15 * employed;
 		}
 	});
-	console.log(price);
 	return price;
 }

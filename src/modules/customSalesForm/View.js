@@ -13,6 +13,7 @@ class FormView {
 	// 		console.log(ev.target);
 	// 	});
 	// }
+
 	/**
 	 * Listen for `submit` event and passes the value of `getFormData()` to the callback function
 	 * @param {function} handler the callback function to fire
@@ -75,8 +76,8 @@ class FormView {
 		const data = [...new FormData(this.#formContainer)];
 		return data;
 	}
-	checkout(id) {
-		window.location.href = `https://academy.kingdomone.co/checkout/?=${id}`;
+	checkout(link) {
+		window.location.href = link;
 	}
 }
 export default new FormView();

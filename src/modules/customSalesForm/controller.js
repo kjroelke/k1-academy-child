@@ -15,7 +15,7 @@ export const controller = {
 			console.log('Loading Form...');
 			await model.getCourseData('courses');
 			FormView.showCourses(model.state.courses);
-
+			console.log(`Form loaded!`);
 			// 3. Handle Submit
 			FormView.addHandlerSubmit(this.submitForm);
 
@@ -36,10 +36,10 @@ export const controller = {
 		try {
 			console.log('Creating assets...');
 			await model.createLMSAssets();
+			console.log('AJAX Complete! See ya later!');
+			FormView.checkout(model.state.accessPlan.permalink);
 		} catch (err) {
 			console.error(err);
 		}
-		// console.log('AJAX Complete! See ya later!');
-		// formView.checkout();
 	},
 };

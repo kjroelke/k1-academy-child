@@ -123,8 +123,8 @@ class FormView {
     return data;
   }
 
-  checkout(id) {
-    window.location.href = `https://academy.kingdomone.co/checkout/?=${id}`;
+  checkout(link) {
+    window.location.href = link;
   }
 
 }
@@ -157,7 +157,8 @@ const controller = {
       // 2. Load Form
       console.log('Loading Form...');
       await _model_js__WEBPACK_IMPORTED_MODULE_1__.getCourseData('courses');
-      _View__WEBPACK_IMPORTED_MODULE_2__["default"].showCourses(_model_js__WEBPACK_IMPORTED_MODULE_1__.state.courses); // 3. Handle Submit
+      _View__WEBPACK_IMPORTED_MODULE_2__["default"].showCourses(_model_js__WEBPACK_IMPORTED_MODULE_1__.state.courses);
+      console.log(`Form loaded!`); // 3. Handle Submit
 
       _View__WEBPACK_IMPORTED_MODULE_2__["default"].addHandlerSubmit(this.submitForm); // Get comparison data
       // await model.getLMSData(['memberships', 'accessPlans', 'groups']);
@@ -179,11 +180,11 @@ const controller = {
     try {
       console.log('Creating assets...');
       await _model_js__WEBPACK_IMPORTED_MODULE_1__.createLMSAssets();
+      console.log('AJAX Complete! See ya later!');
+      _View__WEBPACK_IMPORTED_MODULE_2__["default"].checkout(_model_js__WEBPACK_IMPORTED_MODULE_1__.state.accessPlan.permalink);
     } catch (err) {
       console.error(err);
-    } // console.log('AJAX Complete! See ya later!');
-    // formView.checkout();
-
+    }
   }
 };
 
@@ -279,11 +280,10 @@ async function createMembership() {
   };
 
   try {
-    console.log(membership); // const res = await makeRequest('memberships', 'POST', membership, true);
-    // state.membership = res[1];
-    // FOR TESTING
-
-    state.membership = membership;
+    console.log(membership);
+    const res = await (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.makeRequest)('memberships', 'POST', membership, true);
+    state.membership = res[1]; // FOR TESTING
+    // state.membership = membership;
   } catch (err) {
     console.error(err);
   }
@@ -291,7 +291,7 @@ async function createMembership() {
 
 async function createAccessPlan() {
   const accessPlan = {
-    post_id: 1274,
+    post_id: state.membership.id,
     title: `${state.form.org.name} Access Plan for AB-506 Membership.`,
     access_expiration: 'limited-period',
     visibility: 'hidden',
@@ -299,7 +299,9 @@ async function createAccessPlan() {
   };
 
   try {
-    console.log(accessPlan); // const res = await makeRequest('accessPlan', 'POST', accessPlan, true);
+    const res = await (0,_utilities__WEBPACK_IMPORTED_MODULE_0__.makeRequest)('access-plans', 'POST', accessPlan, true);
+    state.accessPlan = res[1];
+    console.log('Access Plan Created! Time to checkout.');
   } catch (err) {
     console.error(err);
   }
@@ -334,7 +336,6 @@ function calcPrice() {
         price += 15 * employed;
     }
   });
-  console.log(price);
   return price;
 }
 
@@ -405,7 +406,7 @@ function myCopyright(brandName) {
 }
 const API_URL = `${k1AcademyData.root_url}/wp-json/llms/v1/`;
 /**
- * Makes AJAX request to LMS API. Also converts `'accessPlans'` to HTML-friedly `'access-plans.'`
+ * Makes AJAX request to LMS API.
  * @param {string} endpoint the endpoint url to add. *Note: should not include leading '/'*
  * @param {string} method the AJAX Method (GET, POST, DELETE, UPDATE)
  * @param {boolean} returnAll if `true`, returns an Array, else only return the `data`
@@ -416,7 +417,6 @@ async function makeRequest(endpoint) {
   let method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'GET';
   let theData = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   let returnAll = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
-  endpoint = endpoint === 'accessPlans' ? 'access-plans' : endpoint;
 
   try {
     const config = {

@@ -27,7 +27,7 @@ export function myCopyright(brandName) {
 export const API_URL = `${k1AcademyData.root_url}/wp-json/llms/v1/`;
 
 /**
- * Makes AJAX request to LMS API. Also converts `'accessPlans'` to HTML-friedly `'access-plans.'`
+ * Makes AJAX request to LMS API.
  * @param {string} endpoint the endpoint url to add. *Note: should not include leading '/'*
  * @param {string} method the AJAX Method (GET, POST, DELETE, UPDATE)
  * @param {boolean} returnAll if `true`, returns an Array, else only return the `data`
@@ -39,7 +39,6 @@ export async function makeRequest(
 	theData = false,
 	returnAll = false,
 ) {
-	endpoint = endpoint === 'accessPlans' ? 'access-plans' : endpoint;
 	try {
 		const config = {
 			headers: {
