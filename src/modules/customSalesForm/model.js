@@ -136,6 +136,7 @@ async function createGroups() {
 	const totalEmployed =
 		state.form.org.employees.ft + state.form.org.employees.pt;
 	const seats = totalEmployed + state.form.org.volunteers;
+	console.log(seats);
 	const plural = seats > 10 ? true : false;
 	state.groups = {
 		courses: [],
@@ -182,7 +183,7 @@ async function createGroups() {
 			slug: `${state.form.org.name}-mx`,
 			title: `${state.form.org.name}`,
 		};
-		await createGroup(state.groups.group);
+		await createGroup(state.groups.group, seats);
 	}
 }
 async function createGroup(group, seats) {

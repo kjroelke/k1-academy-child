@@ -28,6 +28,10 @@ var _formContainer = /*#__PURE__*/new WeakMap();
 
 var _courseContainer = /*#__PURE__*/new WeakMap();
 
+var _volunteerBtns = /*#__PURE__*/new WeakMap();
+
+var _volunteerDiv = /*#__PURE__*/new WeakMap();
+
 class FormView {
   constructor() {
     _classPrivateFieldInitSpec(this, _jsNotice, {
@@ -45,14 +49,21 @@ class FormView {
       value: (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.querySelector)('.the-courses')
     });
 
+    _classPrivateFieldInitSpec(this, _volunteerBtns, {
+      writable: true,
+      value: (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.querySelector)('input[type=radio][name=volunteers', true)
+    });
+
+    _classPrivateFieldInitSpec(this, _volunteerDiv, {
+      writable: true,
+      value: (0,_utilities__WEBPACK_IMPORTED_MODULE_1__.querySelector)('.licenses__volunteers')
+    });
+
     if (!(0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _jsNotice)) return;
     (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _jsNotice).innerHTML = '';
-  } // _addHandlerCourseSelect() {
-  // 	document.addEventListener('click', (ev) => {
-  // 		console.log(ev.target);
-  // 	});
-  // }
 
+    this._revealVolunteers();
+  }
   /**
    * Listen for `submit` event and passes the value of `getFormData()` to the callback function
    * @param {function} handler the callback function to fire
@@ -68,11 +79,17 @@ class FormView {
     });
   }
 
+  _revealVolunteers() {
+    (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _volunteerBtns).forEach(el => el.addEventListener('change', ev => {
+      if (ev.target.value) (0,_babel_runtime_helpers_classPrivateFieldGet__WEBPACK_IMPORTED_MODULE_0__["default"])(this, _volunteerDiv).classList.toggle('hidden');
+    }));
+  }
+
   showCourses(courses) {
     courses.forEach(course => {
       const courseDisplay = `
 			<div class="course">
-				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label>${course.name}</label>
+				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label for="${course.name}">${course.name}</label>
 			</div>
 			`;
 
@@ -346,6 +363,7 @@ async function createGroups() {
   const coursesToAdd = Object.values(state.form.courses.ids);
   const totalEmployed = state.form.org.employees.ft + state.form.org.employees.pt;
   const seats = totalEmployed + state.form.org.volunteers;
+  console.log(seats);
   const plural = seats > 10 ? true : false;
   state.groups = {
     courses: [],
@@ -397,7 +415,7 @@ async function createGroups() {
       slug: `${state.form.org.name}-mx`,
       title: `${state.form.org.name}`
     };
-    await createGroup(state.groups.group);
+    await createGroup(state.groups.group, seats);
   }
 }
 

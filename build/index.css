@@ -41,6 +41,23 @@ header.x-header-landmark {
   font-size: 2rem;
 }
 
+.the-organization .volunteers__container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.the-organization .volunteers--yes, .the-organization .volunteers--no {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.the-organization .volunteers--yes input, .the-organization .volunteers--no input {
+  margin-right: 1rem;
+}
 .the-user {
   width: 100%;
   border-bottom: 1px solid #2b3636;
@@ -62,8 +79,10 @@ header.x-header-landmark {
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: nowrap;
+  cursor: pointer;
 }
 .the-courses .course label {
+  cursor: pointer;
   margin-left: 1rem;
 }
 
@@ -91,6 +110,9 @@ header.x-header-landmark {
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
+}
+.the-seats .licenses__volunteers.hidden {
+  display: none;
 }
 
 #cs-content > div > div > div > div > div > div > div > section.llms-sd-section.llms-my-courses > div > ul > li.llms-loop-item.post-1214.course.type-course.status-publish.has-post-thumbnail.hentry.course_cat-ministry-safety.is-enrolled.is-incomplete {
