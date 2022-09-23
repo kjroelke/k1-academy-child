@@ -4,15 +4,13 @@ class FormView {
 	#jsNotice = getElById('jsNotice');
 	#formContainer = getElById('custom-sales-form');
 	#courseContainer = querySelector('.the-courses');
+	#volunteerBtns = querySelector('input[type=radio][name=volunteers', true);
+	#volunteerDiv = querySelector('.licenses__volunteers');
 	constructor() {
 		if (!this.#jsNotice) return;
 		this.#jsNotice.innerHTML = '';
+		this._revealVolunteers();
 	}
-	// _addHandlerCourseSelect() {
-	// 	document.addEventListener('click', (ev) => {
-	// 		console.log(ev.target);
-	// 	});
-	// }
 
 	/**
 	 * Listen for `submit` event and passes the value of `getFormData()` to the callback function
@@ -27,17 +25,25 @@ class FormView {
 			// handler(this._getFormDatav2());
 		});
 	}
+	_revealVolunteers() {
+		this.#volunteerBtns.forEach((el) =>
+			el.addEventListener('change', (ev) => {
+				if (ev.target.value) this.#volunteerDiv.classList.toggle('hidden');
+			}),
+		);
+	}
 	showCourses(courses) {
 		courses.forEach((course) => {
 			const courseDisplay = `
 			<div class="course">
-				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label>${course.name}</label>
+				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label for="${course.name}">${course.name}</label>
 			</div>
 			`;
 			this.#courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
 		});
 		console.log(`Form loaded!`);
 	}
+
 	/** Callback onSubmit()
 	 * @return {json} obj of data
 	 */

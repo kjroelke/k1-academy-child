@@ -16,6 +16,23 @@
 		font-size: 2rem;
 	}
 }
+.the-organization {
+	.volunteers {
+		&__container {
+			@include mixins.displayFlex(column);
+		}
+		&--yes {
+			@include mixins.displayFlex(row);
+			input {
+				margin-right: 1rem;
+			}
+		}
+		&--no {
+			@extend .volunteers--yes;
+		}
+	}
+}
+
 .the-user {
 	width: 100%;
 	& > div {
@@ -33,7 +50,9 @@
 	.course {
 		@include mixins.displayFlex;
 		flex-wrap: nowrap;
+		cursor: pointer;
 		label {
+			cursor: pointer;
 			margin-left: 1rem;
 		}
 	}
@@ -50,5 +69,10 @@
 	margin: 2rem 0;
 	.licenses {
 		@include mixins.displayFlex(column);
+		&__volunteers {
+			&.hidden {
+				display: none;
+			}
+		}
 	}
 }
