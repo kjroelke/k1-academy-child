@@ -136,8 +136,6 @@ async function createGroups() {
 	const totalEmployed =
 		state.form.org.employees.ft + state.form.org.employees.pt;
 	const seats = totalEmployed + state.form.org.volunteers;
-	console.log(seats);
-	const plural = seats > 10 ? true : false;
 	state.groups = {
 		courses: [],
 		group: {
@@ -146,44 +144,41 @@ async function createGroups() {
 			slug: ``,
 			title: ``,
 		},
+		seats: {
+			employed: totalEmployed,
+			volunteer: state.form.org.volunteers,
+			total: seats,
+		},
 	};
-
-	if (plural) {
-		console.log('Creating all the groups...');
-		for (const id of coursesToAdd) {
-			const res = await makeRequest(`courses/${id}`);
-			state.groups.courses.push(res);
-		}
-
-		for (const course of state.groups.courses) {
-			const name = course.title.rendered;
-			let type = '';
-			switch (course.id) {
-				case 1021:
-					type = 'Edu';
-					break;
-				case 831:
-					type = 'Vol';
-					break;
-				case 583:
-					type = 'Emp';
-					break;
-			}
-			state.groups.group.post = course.id;
-			if (!name) return;
-			state.groups.group.slug = `${state.form.org.name}-${name}-${type}`;
-			state.groups.group.title = `${state.form.org.name} (${name})`;
-			await createGroup(state.groups.group, seats);
-		}
+	console.log('Creating all the groups...');
+	for (const id of coursesToAdd) {
+		const res = await makeRequest(`courses/${id}`);
+		state.groups.courses.push(res);
 	}
 
-	if (!plural) {
-		console.log('Creating the group.');
-		state.groups.group = {
-			slug: `${state.form.org.name}-mx`,
-			title: `${state.form.org.name}`,
-		};
-		await createGroup(state.groups.group, seats);
+	for (const course of state.groups.courses) {
+		const name = course.title.rendered;
+		let type = '';
+		let licenses = 0;
+		switch (course.id) {
+			case 1021:
+				type = 'Edu';
+				licenses = state.groups.seats.employed;
+				break;
+			case 831:
+				type = 'Vol';
+				licenses = state.groups.seats.volunteer;
+				break;
+			case 583:
+				type = 'Emp';
+				licenses = state.groups.seats.employed;
+				break;
+		}
+		state.groups.group.post = course.id;
+		if (!name) return;
+		state.groups.group.slug = `${state.form.org.name}-${name}-${type}`;
+		state.groups.group.title = `${state.form.org.name} (${name})`;
+		await createGroup(state.groups.group, licenses);
 	}
 }
 async function createGroup(group, seats) {

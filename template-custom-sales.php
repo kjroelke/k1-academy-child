@@ -19,10 +19,8 @@ get_header();
         <div class="the-user">
             <div class="the-user__name">
                 <label for="user-first-name">First Name</label>
-                <!-- required  -->
                 <input type="text" name="user-first-name" id="user-first-name" value="Steven">
                 <label for="user-last-name">Last Name</label>
-                <!-- required  -->
                 <input type="text" name="user-last-name" id="user-last-name" value="Bush">
             </div>
             <div class="the-user__email">
@@ -34,7 +32,6 @@ get_header();
             <label for="org-type">
                 <h2>What type of organization are you?</h2>
             </label>
-            <!-- required  -->
             <select name="org-type" id="org-type">
                 <option selected value="Church">Church</option>
                 <option value="School">School</option>
@@ -43,7 +40,7 @@ get_header();
             <div class="volunteers__container">
                 <h4>Do you have volunteers who need training?</h4>
                 <div class="volunteers--yes">
-                    <input type="radio" name="volunteers" id="True" value="True">
+                    <input checked type="radio" name="volunteers" id="True" value="True">
                     <label for="Yes">Yes</label>
                 </div>
                 <div class="volunteers--no">
@@ -55,28 +52,24 @@ get_header();
         <label for="org-name">
             <h2>What's the name of your organization?</h2>
         </label>
-        <!-- required  -->
         <input type="text" id="org-name" value="Kingdom One">
         <div class="the-seats">
             <div class="licenses licenses__employees">
                 <label for="employee--full">
                     <span>How many <strong>full-time employees</strong> do you have that need access?</span>
                 </label>
-                <!-- required  -->
                 <input type="number" id="employee--full" required value=0>
             </div>
             <div class="licenses licenses__employees">
                 <label for="employee--part">
                     <span>How many <strong>part-time employees</strong> do you have that need access?</span>
                 </label>
-                <!-- required  -->
                 <input type="number" id="employee--part" value=0>
             </div>
             <div class="licenses licenses__volunteers">
                 <label for="volunteers">
                     <span>How many <strong>volunteers</strong> do you have that need access?</span>
                 </label>
-                <!-- required  -->
                 <input type="number" id="volunteers" value=0>
             </div>
         </div>
