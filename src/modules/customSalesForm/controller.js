@@ -12,14 +12,12 @@ export const controller = {
 	init: async function () {
 		try {
 			// 2. Load Form
+			FormView.renderSpinner(FormView.courseContainer);
 			await model.getCourseData('courses');
 			FormView.showCourses(model.state.courses);
 
 			// 3. Handle Submit
 			FormView.addHandlerSubmit(this.submitForm);
-
-			// Get comparison data
-			// await model.getLMSData(['memberships', 'accessPlans', 'groups']);
 		} catch (err) {
 			console.error(err);
 		}

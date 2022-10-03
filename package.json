@@ -1,6 +1,6 @@
 {
   "name": "k1-academy-child",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "The child theme of Pro for K1 Academy",
   "main": "index.js",
   "scripts": {
@@ -12,5 +12,8 @@
   "devDependencies": {
     "@wordpress/scripts": "^24.0.0",
     "dotenv-webpack": "^8.0.1"
+  },
+  "dependencies": {
+    "spin.js": "^4.1.1"
   }
 }
