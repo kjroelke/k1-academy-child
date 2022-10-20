@@ -19,13 +19,13 @@ get_header();
         <div class="the-user">
             <div class="the-user__name">
                 <label for="user-first-name">First Name</label>
-                <input type="text" name="user-first-name" id="user-first-name" value="Steven">
+                <input type="text" name="user-first-name" id="user-first-name" placeholder="Steven">
                 <label for="user-last-name">Last Name</label>
-                <input type="text" name="user-last-name" id="user-last-name" value="Bush">
+                <input type="text" name="user-last-name" id="user-last-name" placeholder="Bush">
             </div>
             <div class="the-user__email">
                 <label for="user-email">Your email</label>
-                <input type="email" name="email" id="user-email" value="hello@kingdomone.co">
+                <input type="email" name="email" id="user-email" placeholder="hello@kingdomone.co">
             </div>
         </div>
         <div class="the-organization">
@@ -52,25 +52,25 @@ get_header();
         <label for="org-name">
             <h2>What's the name of your organization?</h2>
         </label>
-        <input type="text" id="org-name" value="Kingdom One">
+        <input type="text" id="org-name" placeholder="Kingdom One">
         <div class="the-seats">
             <div class="licenses licenses__employees">
                 <label for="employee--full">
                     <span>How many <strong>full-time employees</strong> do you have that need access?</span>
                 </label>
-                <input type="number" id="employee--full" required value=0>
+                <input type="number" id="employee--full" placeholder=0>
             </div>
             <div class="licenses licenses__employees">
                 <label for="employee--part">
                     <span>How many <strong>part-time employees</strong> do you have that need access?</span>
                 </label>
-                <input type="number" id="employee--part" value=0>
+                <input type="number" id="employee--part" placeholder=0>
             </div>
             <div class="licenses licenses__volunteers">
                 <label for="volunteers">
                     <span>How many <strong>volunteers</strong> do you have that need access?</span>
                 </label>
-                <input type="number" id="volunteers" value=0>
+                <input type="number" id="volunteers" placeholder=0>
             </div>
         </div>
         <div class="course-container">
