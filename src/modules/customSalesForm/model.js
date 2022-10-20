@@ -7,7 +7,6 @@ export const state = {
  * @param {string} endpoint endpoint of API
  */
 export async function getCourseData(endpoint) {
-	console.log('Loading Form...');
 	try {
 		const data = await makeRequest(endpoint);
 		data.forEach((el) => {

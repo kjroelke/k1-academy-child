@@ -12,7 +12,7 @@ export const controller = {
 	init: async function () {
 		try {
 			// 2. Load Form
-			FormView.renderSpinner(FormView.courseContainer);
+			// FormView.renderSpinner(FormView.courseContainer);
 			await model.getCourseData('courses');
 			FormView.showCourses(model.state.courses);
 

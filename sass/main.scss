@@ -1,6 +1,5 @@
 @use './abstracts/mixins';
 @use './abstracts/variables';
-@use './vendors/spinner.scss';
 
 @use './base/reset';
 
@@ -12,3 +11,4 @@
 @use './components/llms-loop';
 @use './components/dashboardNav';
 @use './components/custom-sales-form';
+@use './components/spinner';
