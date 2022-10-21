@@ -27,11 +27,11 @@ export function myCopyright(brandName) {
 export const API_URL = `${k1AcademyData.root_url}/wp-json/llms/v1/`;
 
 /**
- * Makes AJAX request to LMS API.
+ * Makes AJAX request to LMS API. Also converts `'accessPlans'` to HTML-friedly `'access-plans.'`
  * @param {string} endpoint the endpoint url to add. *Note: should not include leading '/'*
  * @param {string} method the AJAX Method (GET, POST, DELETE, UPDATE)
  * @param {boolean} returnAll if `true`, returns an Array, else only return the `data`
- * @returns {Array|Object} `data` object or an Array containing [`res`ponse,  `data`, AJAX `method`]
+ * @returns {Array|Object} `data` object or an Array containing [AJAX `res`ponse, The `data`, The `method`]
  */
 export async function makeRequest(
 	endpoint,
@@ -39,6 +39,7 @@ export async function makeRequest(
 	theData = false,
 	returnAll = false,
 ) {
+	// endpoint = endpoint === 'accessPlans' ? 'access-plans' : endpoint;
 	try {
 		const config = {
 			headers: {
@@ -49,9 +50,8 @@ export async function makeRequest(
 			method: `${method}`,
 			timeout: 5000,
 		};
-		if (theData) {
-			config.body = JSON.stringify(theData);
-		}
+		if (theData) config.body = JSON.stringify(theData);
+
 		const res = await fetch(API_URL + `${endpoint}`, config);
 		const data = await res.json();
 		if (!res.ok) throw new Error(`${data.message} (${res.status})`);
