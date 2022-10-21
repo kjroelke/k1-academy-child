@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.2
+
+- multiple api keys and env control added
+
 ## v2.0.1
 
 - refactor Custom Sales form:

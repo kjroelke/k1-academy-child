@@ -25,7 +25,26 @@ export function myCopyright(brandName) {
 }
 
 export const API_URL = `${k1AcademyData.root_url}/wp-json/llms/v1/`;
-
+/** Checks url to determine environmet and returns the appropriate API key/secret as an array
+ * @return {array} [key,secret]
+ */
+function apiControl() {
+	const env = window.location.href;
+	let apiKey, apiSecret;
+	if (env.includes('local')) {
+		apiKey = process.env.API_KEY_LOCAL;
+		apiSecret = process.env.API_SECRET_LOCAL;
+	} else if (env.includes('stg.wpengine')) {
+		apiKey = process.env.API_KEY_STAGING;
+		apiSecret = process.env.API_SECRET_STAGING;
+	} else if (env.includes('academy.kingdomone.')) {
+		apiKey = process.env.API_KEY;
+		apiSecret = process.env.API_SECRET;
+	}
+	return [apiKey, apiSecret];
+}
+const api = apiControl();
+console.log(api);
 /**
  * Makes AJAX request to LMS API. Also converts `'accessPlans'` to HTML-friedly `'access-plans.'`
  * @param {string} endpoint the endpoint url to add. *Note: should not include leading '/'*
@@ -44,8 +63,8 @@ export async function makeRequest(
 		const config = {
 			headers: {
 				'Content-Type': 'application/json',
-				'X-LLMS-CONSUMER-KEY': process.env.API_KEY,
-				'X-LLMS-CONSUMER-SECRET': process.env.API_SECRET,
+				'X-LLMS-CONSUMER-KEY': api[0],
+				'X-LLMS-CONSUMER-SECRET': api[1],
 			},
 			method: `${method}`,
 			timeout: 5000,
