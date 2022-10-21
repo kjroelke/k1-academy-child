@@ -26,7 +26,7 @@ add_filter('x_enqueue_parent_stylesheet', '__return_true');
  * enqueue child styles & scripts
  */
 function child_enqueue_styles() {
-    wp_enqueue_style('k1-academy-Styles', get_stylesheet_directory_uri() . '/build/index.css', array(), '2.1.0');
+    wp_enqueue_style('k1-academy-Styles', get_stylesheet_directory_uri() . '/build/index.css', array(), '2.1.1');
     wp_enqueue_script('k1-academy-data', get_stylesheet_directory_uri() . '/build/index.js', array(), '2.1.0', true);
     wp_localize_script('k1-academy-data', 'k1AcademyData', array(
         'root_url' => get_site_url(),

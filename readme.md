@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.1
+
+- course selector bug fix
+
 ## v2.1
 
 - improved form ux/ui and added expiration to course purchase.

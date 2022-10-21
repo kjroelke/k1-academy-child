@@ -28,9 +28,14 @@ class FormView {
 		this.formContainer.addEventListener('submit', (ev) => {
 			ev.preventDefault();
 			handler(this.getFormData());
-			this.formContainer.innerHTML(this.#renderSpinner());
-			// handler(this._getFormDatav2());
+			this.formContainer.innerHTML = this.#renderSpinner();
+			// const error = setTimeout(this.#errorMessage(this.formContainer), 5000);
 		});
+		// handler(this._getFormDatav2());
+	}
+
+	#errorMessage(parentEl) {
+		parentEl.innerHTML = `Something went wrong. Please try again later or contact <a href="mailto:hello@kingdomone.co">hello@kingdomone.co</a> for help.`;
 	}
 	/** Show/Hide Volunteer count based on user input */
 	#revealVolunteers() {
@@ -94,7 +99,7 @@ class FormView {
 		const theCourses = querySelector('.course', true);
 
 		theCourses.forEach((el) => {
-			const courseName = el.querySelector('label').textContent;
+			const courseName = el.querySelector('.course__info--title').textContent;
 			const courseID = getElById(courseName);
 			if (courseID.checked) form.courses.ids.push(+courseID.value);
 		});
