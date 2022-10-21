@@ -2,16 +2,20 @@ export const formMarkup = `<form class="sales-form" id="custom-sales-form">
         <div class="the-user">
             <div class="the-user__name">
                 <label for="user-first-name">First Name</label>
-                <input type="text" name="user-first-name" id="user-first-name" placeholder="Steven">
+                <input required type="text" name="user-first-name" id="user-first-name" placeholder="Steven">
                 <label for="user-last-name">Last Name</label>
-                <input type="text" name="user-last-name" id="user-last-name" placeholder="Bush">
+                <input type="text" required name="user-last-name" id="user-last-name" placeholder="Bush">
             </div>
             <div class="the-user__email">
                 <label for="user-email">Your email</label>
-                <input type="email" name="email" id="user-email" placeholder="hello@kingdomone.co">
+                <input type="email" name="email" required id="user-email" placeholder="hello@kingdomone.co">
             </div>
         </div>
         <div class="the-organization">
+            <label for="org-name">
+                <h2>What's the name of your organization?</h2>
+            </label>
+            <input type="text" required id="org-name" placeholder="Kingdom One">
             <label for="org-type">
                 <h2>What type of organization are you?</h2>
             </label>
@@ -32,34 +36,28 @@ export const formMarkup = `<form class="sales-form" id="custom-sales-form">
                 </div>
             </div>
         </div>
-        <label for="org-name">
-            <h2>What's the name of your organization?</h2>
-        </label>
-        <input type="text" id="org-name" placeholder="Kingdom One">
         <div class="the-seats">
             <div class="licenses licenses__employees">
                 <label for="employee--full">
                     <span>How many <strong>full-time employees</strong> do you have that need access?</span>
                 </label>
-                <input type="number" id="employee--full" placeholder=0>
+                <input type="number" required inputmode="numeric" id="employee--full" placeholder=0>
             </div>
             <div class="licenses licenses__employees">
                 <label for="employee--part">
                     <span>How many <strong>part-time employees</strong> do you have that need access?</span>
                 </label>
-                <input type="number" id="employee--part" placeholder=0>
+                <input type="number" inputmode="numeric" id="employee--part" placeholder=0>
             </div>
             <div class="licenses licenses__volunteers">
                 <label for="volunteers">
                     <span>How many <strong>volunteers</strong> do you have that need access?</span>
                 </label>
-                <input type="number" id="volunteers" placeholder=0>
+                <input type="number" inputmode="numeric" id="volunteers" placeholder=0>
             </div>
         </div>
         <div class="course-container">
-            <label for="courses">
                 <h2>Select which courses you would like to purchase.</h2>
-            </label>
             <div class="the-courses"></div>
         </div>
         <div class="the-price"></div>

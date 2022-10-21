@@ -29,12 +29,46 @@
 		width: 100%;
 	}
 }
-.the-courses {
-	.course {
-		@include mixins.displayFlex;
-		flex-wrap: nowrap;
-		label {
-			margin-left: 1rem;
+.the-organization {
+	.volunteers {
+		&__container {
+			@include mixins.displayFlex(column);
+			& > div {
+				@include mixins.displayFlex(row, flex-start, center);
+				gap: 1rem;
+			}
+		}
+	}
+}
+.course-container {
+	h2 {
+		margin: 2rem 0;
+	}
+	.the-courses {
+		.course {
+			@include mixins.displayFlex(row, flex-start, center);
+			flex-wrap: nowrap;
+			gap: 1rem;
+			transition: all 0.3s ease;
+			padding: 2rem;
+			&__info {
+				& > * {
+					cursor: pointer;
+				}
+				@include mixins.displayFlex(column);
+				&--title {
+					font-size: 1.8rem;
+					font-weight: 700;
+				}
+				&--excerpt {
+					font-size: 1.6rem;
+				}
+			}
+			&:hover,
+			&:active,
+			&:focus {
+				background-color: #cecece;
+			}
 		}
 	}
 }

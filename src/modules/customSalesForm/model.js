@@ -15,6 +15,7 @@ class Model {
 					link: el.permalink,
 					status: el.status,
 					name: el.title.rendered,
+					excerpt: el.excerpt,
 				};
 				this.state.courses.push(course);
 			});
@@ -48,6 +49,8 @@ class Model {
 			post_id: this.state.membership.id,
 			title: `${this.state.form.org.name} Access Plan for AB-506 Membership.`,
 			access_expiration: 'limited-period',
+			access_length: 3,
+			access_period: 'month',
 			visibility: 'hidden',
 			price: this.#calcPrice(),
 		};
@@ -58,6 +61,7 @@ class Model {
 			console.error(err);
 		}
 	};
+
 	/** List of course IDs Names & Prices (currently for K1Academy.local)
 	 * - `1214` Quick start = free
 	 * - `1021` Education = $15
@@ -136,6 +140,7 @@ class Model {
 			await this.#createGroup(this.state.groups.group, licenses);
 		}
 	};
+
 	#createGroup = async function (group, seats) {
 		try {
 			const res = await makeRequest('groups', 'POST', group, true);
@@ -152,40 +157,3 @@ class Model {
 }
 
 export default new Model();
-
-/**
- * [DEPRECATED?]
- * Takes an array of LMS endpoints as strings and returns the data to State.
- * [LMS Rest API Documentation](https://developer.lifterlms.com/rest-api/)
- * @param {array} lmsData the terms as strings
- */
-// export async function getLMSData(lmsData) {
-// 	try {
-// 		lmsData.forEach(async (endpoint) => {
-// 			const data = await makeRequest(endpoint);
-// 			data.forEach((el) => {
-// 				switch (endpoint) {
-// 					case 'memberships':
-// 						const membership = {
-// 							id: el.id,
-// 						};
-// 						state.memberships.push(membership);
-// 						break;
-// 					case 'accessPlans':
-// 						const accessPlan = {
-// 							id: el.id,
-// 						};
-// 						state.accessPlans.push(accessPlan);
-// 						break;
-// 					case 'groups':
-// 						const group = {
-// 							id: el.id,
-// 						};
-// 						state.groups.push(group);
-// 				}
-// 			});
-// 		});
-// 	} catch (err) {
-// 		console.error(err);
-// 	}
-// }

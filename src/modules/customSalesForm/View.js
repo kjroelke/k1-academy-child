@@ -28,6 +28,7 @@ class FormView {
 		this.formContainer.addEventListener('submit', (ev) => {
 			ev.preventDefault();
 			handler(this.getFormData());
+			this.formContainer.innerHTML(this.#renderSpinner());
 			// handler(this._getFormDatav2());
 		});
 	}
@@ -56,7 +57,7 @@ class FormView {
 		courses.forEach((course) => {
 			const courseDisplay = `
 			<div class="course">
-				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><label for="${course.name}">${course.name}</label>
+				<input type="checkbox" value="${course.id}" name="${course.name}" id="${course.name}"><div class="course__info"><label for="${course.name}"><h3 class="course__info--title">${course.name}</h3><span class="course__info--excerpt">${course.excerpt.rendered}</span></label></div>
 			</div>
 			`;
 			this.courseContainer.insertAdjacentHTML('afterbegin', courseDisplay);
