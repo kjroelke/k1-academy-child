@@ -31,7 +31,7 @@ export const API_URL = `${k1AcademyData.root_url}/wp-json/llms/v1/`;
 function apiControl() {
 	const env = window.location.href;
 	let apiKey, apiSecret;
-	if (env.includes('local')) {
+	if (env.includes('.local')) {
 		apiKey = process.env.API_KEY_LOCAL;
 		apiSecret = process.env.API_SECRET_LOCAL;
 	} else if (env.includes('stg.wpengine')) {
@@ -44,7 +44,6 @@ function apiControl() {
 	return [apiKey, apiSecret];
 }
 const api = apiControl();
-console.log(api);
 /**
  * Makes AJAX request to LMS API. Also converts `'accessPlans'` to HTML-friedly `'access-plans.'`
  * @param {string} endpoint the endpoint url to add. *Note: should not include leading '/'*
@@ -72,8 +71,8 @@ export async function makeRequest(
 		if (theData) config.body = JSON.stringify(theData);
 
 		const res = await fetch(API_URL + `${endpoint}`, config);
-		const data = await res.json();
 		if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+		const data = await res.json();
 		return returnAll ? [res, data, method] : data;
 	} catch (error) {}
 }
