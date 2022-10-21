@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1
+
+- improved form ux/ui and added expiration to course purchase.
+
 ## v2.0.2
 
 - multiple api keys and env control added

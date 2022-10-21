@@ -50,12 +50,16 @@
 			flex-wrap: nowrap;
 			gap: 1rem;
 			transition: all 0.3s ease;
-			padding: 2rem;
+			padding: 0.5rem 2rem;
 			&__info {
+				@include mixins.displayFlex(column);
+				flex: 1 1 auto;
+				label {
+					width: 100%;
+				}
 				& > * {
 					cursor: pointer;
 				}
-				@include mixins.displayFlex(column);
 				&--title {
 					font-size: 1.8rem;
 					font-weight: 700;
