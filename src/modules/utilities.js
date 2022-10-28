@@ -25,6 +25,7 @@ export function myCopyright(brandName) {
 }
 
 export const API_URL = `${k1AcademyData.root_url}/wp-json/llms/v1/`;
+
 /** Checks url to determine environmet and returns the appropriate API key/secret as an array
  * @return {array} [key,secret]
  */
@@ -32,18 +33,22 @@ function apiControl() {
 	const env = window.location.href;
 	let apiKey, apiSecret;
 	if (env.includes('.local')) {
+		console.log('local env');
 		apiKey = process.env.API_KEY_LOCAL;
 		apiSecret = process.env.API_SECRET_LOCAL;
 	} else if (env.includes('stg.wpengine')) {
+		console.log('staging env');
 		apiKey = process.env.API_KEY_STAGING;
 		apiSecret = process.env.API_SECRET_STAGING;
 	} else if (env.includes('academy.kingdomone.')) {
+		console.log('production env');
 		apiKey = process.env.API_KEY;
 		apiSecret = process.env.API_SECRET;
 	}
 	return [apiKey, apiSecret];
 }
 const api = apiControl();
+
 /**
  * Makes AJAX request to LMS API. Also converts `'accessPlans'` to HTML-friedly `'access-plans.'`
  * @param {string} endpoint the endpoint url to add. *Note: should not include leading '/'*
@@ -74,5 +79,31 @@ export async function makeRequest(
 		if (!res.ok) throw new Error(`${data.message} (${res.status})`);
 		const data = await res.json();
 		return returnAll ? [res, data, method] : data;
-	} catch (error) {}
+	} catch (error) {
+		console.error(err);
+	}
 }
+
+const Google = require('google-api-wrapper');
+
+async function main() {
+	Google.loadCredFile('../../buoyant-nectar-366611-0816404e4361.json');
+	// Google.loadTokenFile('/path/to/token.json');
+	const Sheet = Google.getSheet();
+	const rows = await Sheet.read('1N18vFBkeo7PH6jNJc791I07vrZdMYYKOg1o5qrRIITA');
+	console.log(rows);
+}
+
+main();
+// export async function updateGoogle() {
+// 	try {
+// 		const url = `https://sheets.googleapis.com/v4/spreadsheets/1N18vFBkeo7PH6jNJc791I07vrZdMYYKOg1o5qrRIITA`;
+// 		const res = await fetch(url);
+// 		if (!res.ok) throw new Error(`${data.message} (${res.status})`);
+// 		const data = await res.json();
+// 		return returnAll ? [res, data, method] : data;
+// 	} catch (err) {
+// 		console.error(err);
+// 	}
+// }
+// updateGoogle();
