@@ -36,4 +36,4 @@ function child_enqueue_styles() {
 }
 add_action('wp_enqueue_scripts', 'child_enqueue_styles');
 
-include_once get_theme_file_path('/includes/llms-customizations.php');
+include_once get_theme_file_path('/includes/lifterlms/llms-customizations.php');

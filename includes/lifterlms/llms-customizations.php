@@ -35,3 +35,15 @@ function end_x_container() {
 }
 add_action('lifterlms_before_main_content', 'begin_x_container');
 add_action('lifterlms_after_main_content', 'end_x_container');
+
+
+/**
+ * Add an arbitrary plugin directory to the list
+ * @param  array $dirs    Array of paths to directories to load LifterLMS templates from
+ * @return array
+ */
+function my_llms_theme_override_dirs($dirs) {
+    array_unshift($dirs, plugin_dir_path(__FILE__) . '/templates');
+    return $dirs;
+}
+add_filter('lifterlms_theme_override_directories', 'my_llms_theme_override_dirs', 10, 1);
