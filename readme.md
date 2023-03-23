@@ -1,5 +1,7 @@
 # Changelog
 
+**This has been archived and moved to [Kingdom One's Github](https://github.com/kingdom-one/k1-academy).**
+
 ## v2.1.1
 
 - course selector bug fix
